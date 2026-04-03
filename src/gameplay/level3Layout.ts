@@ -2,7 +2,7 @@ import type { MovingPlatform, Segment, Spawn } from "./levelLayout";
 
 export const LEVEL_3_LENGTH = 4160;
 export const PLAYER_SPAWN_3: Spawn = { x: 120, y: 454 };
-export const GOAL_POSITION_3 = { x: 4040, y: 318 };
+export const GOAL_POSITION_3 = { x: 3990, y: 318 };
 export const CHECKPOINT_POSITION_3: Spawn = { x: 2620, y: 334 };
 
 export const GROUND_SEGMENTS_3: Segment[] = [

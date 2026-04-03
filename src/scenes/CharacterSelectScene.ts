@@ -1,10 +1,14 @@
 import Phaser from "phaser";
 import { characters, resetRunState, setSelectedCharacter } from "../gameState";
+import { getLevelDefinition, type LevelId } from "../gameplay/levels";
 import { setCurrentScene, setRunStatus } from "../runtimeState";
 
 export class CharacterSelectScene extends Phaser.Scene {
   private index = 0;
   private cards: Phaser.GameObjects.Container[] = [];
+  private readonly levelIds: LevelId[] = ["level-1", "level-2", "level-3", "level-4"];
+  private levelIndex = 0;
+  private levelButtons: Phaser.GameObjects.Container[] = [];
 
   constructor() {
     super("character-select");
@@ -47,16 +51,32 @@ export class CharacterSelectScene extends Phaser.Scene {
     });
 
     this.add
-      .text(width / 2, 500, "Sinistra/Destra per scegliere, INVIO per confermare", {
+      .text(width / 2, 468, "Sinistra/Destra per scegliere il personaggio", {
         fontFamily: "Georgia",
         fontSize: "18px",
         color: "#f8e4bc"
       })
       .setOrigin(0.5);
+    this.add
+      .text(width / 2, 494, "1-4 per partire subito dal livello scelto, INVIO per confermare", {
+        fontFamily: "Georgia",
+        fontSize: "17px",
+        color: "#d9f1ff"
+      })
+      .setOrigin(0.5);
+
+    this.createLevelQuickSelect(width / 2, 534);
 
     this.refreshSelection();
     this.input.keyboard?.on("keydown-LEFT", () => this.moveSelection(-1));
     this.input.keyboard?.on("keydown-RIGHT", () => this.moveSelection(1));
+    this.input.keyboard?.on("keydown-UP", () => this.moveLevelSelection(-1));
+    this.input.keyboard?.on("keydown-DOWN", () => this.moveLevelSelection(1));
+    this.levelIds.forEach((levelId, idx) => {
+      const keyCode = Phaser.Input.Keyboard.KeyCodes.ONE + idx;
+      this.input.keyboard?.on(`keydown-${idx + 1}`, () => this.selectLevel(levelId));
+      this.input.keyboard?.addKey(keyCode);
+    });
     this.input.keyboard?.on("keydown-ENTER", () => this.confirmSelection());
   }
 
@@ -133,8 +153,55 @@ export class CharacterSelectScene extends Phaser.Scene {
     return card;
   }
 
+  private createLevelQuickSelect(x: number, y: number): void {
+    const spacing = 132;
+    const startX = x - ((this.levelIds.length - 1) * spacing) / 2;
+
+    this.levelIds.forEach((levelId, idx) => {
+      const definition = getLevelDefinition(levelId);
+      const frame = this.add.rectangle(0, 0, 116, 42, 0x2b4761, 0.92).setStrokeStyle(2, 0x7fdfff);
+      const text = this.add
+        .text(0, 0, definition.worldLabel.replace("Mondo ", ""), {
+          fontFamily: "Georgia",
+          fontSize: "18px",
+          fontStyle: "bold",
+          color: "#f7fdff"
+        })
+        .setOrigin(0.5);
+
+      const button = this.add.container(startX + idx * spacing, y, [frame, text]);
+      button.setSize(116, 42);
+      button.setInteractive(new Phaser.Geom.Rectangle(-58, -21, 116, 42), Phaser.Geom.Rectangle.Contains);
+      button.on("pointerup", () => {
+        this.levelIndex = idx;
+        this.refreshSelection();
+      });
+      button.on("pointerdown", () => {
+        this.levelIndex = idx;
+        this.refreshSelection();
+      });
+      button.on("pointerdblclick", () => {
+        this.levelIndex = idx;
+        this.refreshSelection();
+        this.confirmSelection();
+      });
+
+      this.levelButtons.push(button);
+    });
+  }
+
   private moveSelection(direction: number): void {
     this.index = Phaser.Math.Wrap(this.index + direction, 0, characters.length);
+    this.refreshSelection();
+  }
+
+  private moveLevelSelection(direction: number): void {
+    this.levelIndex = Phaser.Math.Wrap(this.levelIndex + direction, 0, this.levelIds.length);
+    this.refreshSelection();
+  }
+
+  private selectLevel(levelId: LevelId): void {
+    this.levelIndex = this.levelIds.indexOf(levelId);
     this.refreshSelection();
   }
 
@@ -149,6 +216,15 @@ export class CharacterSelectScene extends Phaser.Scene {
       plate.setFillStyle(selected ? 0x4e3568 : 0x3d2b52);
       card.y = selected ? this.scale.height / 2 : this.scale.height / 2 + 8;
     });
+
+    this.levelButtons.forEach((button, idx) => {
+      const selected = idx === this.levelIndex;
+      const frame = button.list[0] as Phaser.GameObjects.Rectangle;
+      frame.setFillStyle(selected ? 0x3e6980 : 0x2b4761);
+      frame.setStrokeStyle(selected ? 4 : 2, selected ? 0xffe5a3 : 0x7fdfff);
+      button.setScale(selected ? 1.05 : 1);
+      button.y = selected ? 530 : 534;
+    });
   }
 
   private confirmSelection(): void {
@@ -160,7 +236,7 @@ export class CharacterSelectScene extends Phaser.Scene {
 
     setSelectedCharacter(character.id);
     resetRunState();
-    this.scene.start("level-1");
+    this.scene.start(this.levelIds[this.levelIndex]);
     this.scene.launch("hud");
   }
 }

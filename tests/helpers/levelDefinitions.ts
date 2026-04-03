@@ -34,10 +34,27 @@ import {
   MOVING_PLATFORMS_3,
   PLAYER_SPAWN_3
 } from "../../src/gameplay/level3Layout.ts";
+import {
+  BOARD_PLATFORMS_4,
+  BOSS_GATE_4,
+  BOSS_ORB_SPAWNS_4,
+  BOSS_SPAWN_4,
+  BOSS_TRIGGER_4,
+  CHECKPOINT_POSITION_4,
+  COLLECTIBLE_SPAWNS_4,
+  ENEMY_SPAWNS_4,
+  GOAL_POSITION_4,
+  GROUND_SEGMENTS_4,
+  HAZARD_SPAWNS_4,
+  LEVEL_4_LENGTH,
+  MOVING_PLATFORMS_4,
+  PLAYER_SPAWN_4
+} from "../../src/gameplay/level4Layout.ts";
 
 export const testLevels = {
   level1: {
     worldLabel: "Mondo 1-1",
+    environment: "land",
     length: LEVEL_LENGTH,
     playerSpawn: PLAYER_SPAWN,
     goalPosition: GOAL_POSITION,
@@ -51,6 +68,7 @@ export const testLevels = {
   },
   level2: {
     worldLabel: "Mondo 1-2",
+    environment: "land",
     length: LEVEL_2_LENGTH,
     playerSpawn: PLAYER_SPAWN_2,
     goalPosition: GOAL_POSITION_2,
@@ -64,6 +82,7 @@ export const testLevels = {
   },
   level3: {
     worldLabel: "Mondo 1-3",
+    environment: "land",
     length: LEVEL_3_LENGTH,
     playerSpawn: PLAYER_SPAWN_3,
     goalPosition: GOAL_POSITION_3,
@@ -74,5 +93,27 @@ export const testLevels = {
     enemies: ENEMY_SPAWNS_3,
     hazards: HAZARD_SPAWNS_3,
     movingPlatforms: MOVING_PLATFORMS_3
+  },
+  level4: {
+    worldLabel: "Mondo 1-4",
+    environment: "underwater",
+    length: LEVEL_4_LENGTH,
+    playerSpawn: PLAYER_SPAWN_4,
+    goalPosition: GOAL_POSITION_4,
+    checkpointPosition: CHECKPOINT_POSITION_4,
+    groundSegments: GROUND_SEGMENTS_4,
+    boardPlatforms: BOARD_PLATFORMS_4,
+    collectibles: COLLECTIBLE_SPAWNS_4,
+    enemies: ENEMY_SPAWNS_4,
+    hazards: HAZARD_SPAWNS_4,
+    movingPlatforms: MOVING_PLATFORMS_4,
+    boss: {
+      name: "Murena Regina",
+      maxHp: 3,
+      spawn: BOSS_SPAWN_4,
+      triggerArea: BOSS_TRIGGER_4,
+      gate: BOSS_GATE_4,
+      orbSpawns: BOSS_ORB_SPAWNS_4
+    }
   }
 };

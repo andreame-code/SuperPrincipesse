@@ -4,6 +4,7 @@ import { BootScene } from "./scenes/BootScene";
 import { CharacterSelectScene } from "./scenes/CharacterSelectScene";
 import { HudScene } from "./scenes/HudScene";
 import { LevelScene } from "./scenes/LevelScene";
+import { LevelFourScene } from "./scenes/LevelFourScene";
 import { LevelThreeScene } from "./scenes/LevelThreeScene";
 import { LevelTwoScene } from "./scenes/LevelTwoScene";
 import { MenuScene } from "./scenes/MenuScene";
@@ -28,7 +29,7 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  scene: [BootScene, MenuScene, CharacterSelectScene, LevelScene, LevelTwoScene, LevelThreeScene, HudScene, WinScene, GameOverScene]
+  scene: [BootScene, MenuScene, CharacterSelectScene, LevelScene, LevelTwoScene, LevelThreeScene, LevelFourScene, HudScene, WinScene, GameOverScene]
 };
 
 const game = new Phaser.Game(config);
