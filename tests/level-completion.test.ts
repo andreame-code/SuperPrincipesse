@@ -5,7 +5,7 @@ import { testLevels } from "./helpers/levelDefinitions.ts";
 import { findCompletionRoute } from "./helpers/levelTraversal.ts";
 
 const unlockedCharacters = characters.filter((character) => character.unlocked);
-const levels = [testLevels.level1, testLevels.level2, testLevels.level3];
+const levels = [testLevels.level1, testLevels.level2, testLevels.level3, testLevels.level4];
 
 test("Every unlocked character has a complete traversal route from spawn to goal on each level", () => {
   levels.forEach((level) => {

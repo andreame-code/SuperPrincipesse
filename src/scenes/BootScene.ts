@@ -110,6 +110,7 @@ export class BootScene extends Phaser.Scene {
     this.createPlatformTexture();
     this.createCollectibleTexture();
     this.createEnemySpritesheet();
+    this.createFishEnemySpritesheet();
     this.createFoliageTextures();
     this.createAttackTextures();
     this.createGoalTextures();
@@ -158,6 +159,13 @@ export class BootScene extends Phaser.Scene {
       key: "slime-hop",
       frames: this.anims.generateFrameNumbers("enemy-slime-sheet", { start: 0, end: 3 }),
       frameRate: 8,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fish-swim",
+      frames: this.anims.generateFrameNumbers("enemy-fish-sheet", { start: 0, end: 3 }),
+      frameRate: 10,
       repeat: -1
     });
   }
@@ -316,6 +324,52 @@ export class BootScene extends Phaser.Scene {
 
     [0, 1, 2, 1].forEach((squash, index) => {
       this.drawEnemyFrame(ctx, index * frameWidth, squash);
+    });
+
+    texture.refresh();
+    texture.add("__BASE", 0, 0, 0, frameWidth, frameHeight);
+    for (let frameIndex = 0; frameIndex < frameCount; frameIndex += 1) {
+      texture.add(frameIndex, 0, frameIndex * frameWidth, 0, frameWidth, frameHeight);
+    }
+  }
+
+  private createFishEnemySpritesheet(): void {
+    const frameWidth = 60;
+    const frameHeight = 38;
+    const frameCount = 4;
+    const texture = this.requireCanvasTexture("enemy-fish-sheet", frameWidth * frameCount, frameHeight);
+    const ctx = texture.getContext();
+
+    [0, 1, 2, 1].forEach((tailSwing, index) => {
+      const x = index * frameWidth;
+      ctx.fillStyle = "#ffb36f";
+      this.fillEllipse(ctx, x + 28, 19, 18, 11);
+      ctx.fillStyle = "#ffd59d";
+      this.fillEllipse(ctx, x + 30, 18, 11, 7);
+      ctx.fillStyle = "#f07e46";
+      ctx.beginPath();
+      const tailOffset = tailSwing === 1 ? -4 : tailSwing === 2 ? -7 : -2;
+      ctx.moveTo(x + 10, 19);
+      ctx.lineTo(x + 2 + tailOffset, 8);
+      ctx.lineTo(x + 2 + tailOffset, 30);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(x + 28, 10);
+      ctx.lineTo(x + 21, 2 + tailSwing);
+      ctx.lineTo(x + 36, 9);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#2e3048";
+      this.fillEllipse(ctx, x + 38, 16, 2.5, 2.5);
+      ctx.fillStyle = "#ffffff";
+      this.fillEllipse(ctx, x + 39, 15, 1, 1);
+      ctx.strokeStyle = "#2e3048";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x + 43, 20);
+      ctx.quadraticCurveTo(x + 46, 21, x + 48, 19);
+      ctx.stroke();
     });
 
     texture.refresh();

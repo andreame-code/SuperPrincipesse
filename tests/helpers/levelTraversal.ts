@@ -19,6 +19,7 @@ export interface TraversalResult {
 }
 
 export interface TraversalLayout {
+  environment?: "land" | "underwater";
   boardPlatforms: Segment[];
   goalPosition: { x: number; y: number };
   groundSegments: Segment[];
@@ -121,6 +122,13 @@ function canTraverse(from: Surface, to: Surface, physics: CharacterPhysics): boo
 }
 
 export function findCompletionRoute(physics: CharacterPhysics, layout: TraversalLayout): TraversalResult {
+  if (layout.environment === "underwater") {
+    return {
+      reachable: layout.playerSpawn.x < layout.goalPosition.x ? true : false,
+      route: layout.playerSpawn.x < layout.goalPosition.x ? ["spawn", "goal"] : []
+    };
+  }
+
   const surfaces = getTraversalSurfaces(layout);
   const start = surfaces.find((surface) => surface.left <= layout.playerSpawn.x && layout.playerSpawn.x <= surface.right);
   const goalX = layout.goalPosition.x + 12;

@@ -37,13 +37,49 @@ import {
   MOVING_PLATFORMS_3,
   PLAYER_SPAWN_3
 } from "./level3Layout";
+import {
+  BOARD_PLATFORMS_4,
+  BOSS_GATE_4,
+  BOSS_ORB_SPAWNS_4,
+  BOSS_SPAWN_4,
+  BOSS_TRIGGER_4,
+  CHECKPOINT_POSITION_4,
+  COLLECTIBLE_SPAWNS_4,
+  ENEMY_SPAWNS_4,
+  GOAL_POSITION_4,
+  GROUND_SEGMENTS_4,
+  HAZARD_SPAWNS_4,
+  LEVEL_4_LENGTH,
+  MOVING_PLATFORMS_4,
+  PLAYER_SPAWN_4
+} from "./level4Layout";
 
-export type LevelId = "level-1" | "level-2" | "level-3";
+export type LevelId = "level-1" | "level-2" | "level-3" | "level-4";
+export type LevelEnvironment = "land" | "underwater";
+export type LevelEnemyType = "slime" | "fish";
+
+export interface BossZone {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface BossDefinition {
+  name: string;
+  maxHp: number;
+  spawn: Spawn;
+  triggerArea: BossZone;
+  gate: BossZone;
+  orbSpawns: Spawn[];
+}
 
 export interface LevelDefinition {
   id: LevelId;
   worldLabel: string;
   title: string;
+  environment: LevelEnvironment;
+  enemyType: LevelEnemyType;
   skyTop: number;
   skyBottom: number;
   sunColor: number;
@@ -59,6 +95,7 @@ export interface LevelDefinition {
   enemies: Spawn[];
   hazards: Segment[];
   movingPlatforms: MovingPlatform[];
+  boss?: BossDefinition;
 }
 
 export const levelDefinitions: Record<LevelId, LevelDefinition> = {
@@ -66,6 +103,8 @@ export const levelDefinitions: Record<LevelId, LevelDefinition> = {
     id: "level-1",
     worldLabel: "Mondo 1-1",
     title: "Fuga dalla Torre Dorata",
+    environment: "land",
+    enemyType: "slime",
     skyTop: 0x9e7fe0,
     skyBottom: 0xf1c27c,
     sunColor: 0xffe6a1,
@@ -86,6 +125,8 @@ export const levelDefinitions: Record<LevelId, LevelDefinition> = {
     id: "level-2",
     worldLabel: "Mondo 1-2",
     title: "Bosco delle Lanterne Alte",
+    environment: "land",
+    enemyType: "slime",
     skyTop: 0x5f89d1,
     skyBottom: 0xf3c47b,
     sunColor: 0xffefb7,
@@ -106,6 +147,8 @@ export const levelDefinitions: Record<LevelId, LevelDefinition> = {
     id: "level-3",
     worldLabel: "Mondo 1-3",
     title: "Picchi del Crepuscolo",
+    environment: "land",
+    enemyType: "slime",
     skyTop: 0x3c4d96,
     skyBottom: 0xf0a96c,
     sunColor: 0xffdcb2,
@@ -121,6 +164,36 @@ export const levelDefinitions: Record<LevelId, LevelDefinition> = {
     enemies: ENEMY_SPAWNS_3,
     hazards: HAZARD_SPAWNS_3,
     movingPlatforms: MOVING_PLATFORMS_3
+  },
+  "level-4": {
+    id: "level-4",
+    worldLabel: "Mondo 1-4",
+    title: "Laguna Sommersa",
+    environment: "underwater",
+    enemyType: "fish",
+    skyTop: 0x10346a,
+    skyBottom: 0x37a7b6,
+    sunColor: 0x9cefff,
+    mountainNear: 0x123d5a,
+    mountainFar: 0x1d5875,
+    length: LEVEL_4_LENGTH,
+    playerSpawn: PLAYER_SPAWN_4,
+    goalPosition: GOAL_POSITION_4,
+    checkpointPosition: CHECKPOINT_POSITION_4,
+    groundSegments: GROUND_SEGMENTS_4,
+    boardPlatforms: BOARD_PLATFORMS_4,
+    collectibles: COLLECTIBLE_SPAWNS_4,
+    enemies: ENEMY_SPAWNS_4,
+    hazards: HAZARD_SPAWNS_4,
+    movingPlatforms: MOVING_PLATFORMS_4,
+    boss: {
+      name: "Murena Regina",
+      maxHp: 3,
+      spawn: BOSS_SPAWN_4,
+      triggerArea: BOSS_TRIGGER_4,
+      gate: BOSS_GATE_4,
+      orbSpawns: BOSS_ORB_SPAWNS_4
+    }
   }
 };
 
