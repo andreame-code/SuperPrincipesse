@@ -31,6 +31,7 @@ export class LevelScene extends Phaser.Scene {
   private bossGateCollider?: Phaser.GameObjects.Zone;
   private bossGateVisual?: Phaser.GameObjects.Container;
   private bossHudText?: Phaser.GameObjects.Text;
+  private bossHintText?: Phaser.GameObjects.Text;
   private boss?: Phaser.Physics.Arcade.Sprite;
   private debugGraphics?: Phaser.GameObjects.Graphics;
   private debugEnabled = false;
@@ -674,6 +675,18 @@ export class LevelScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(60)
       .setAlpha(0);
+    this.bossHintText = this.add
+      .text(480, 108, "", {
+        fontFamily: "Georgia",
+        fontSize: "17px",
+        color: "#effeff",
+        stroke: "#114a63",
+        strokeThickness: 4
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(60)
+      .setAlpha(0);
 
     this.setGoalEnabled(false);
   }
@@ -855,6 +868,7 @@ export class LevelScene extends Phaser.Scene {
 
     this.createBossGate();
     this.updateBossHud();
+    this.showBossHint("Raccogli la perla azzurra luminosa per ferire il boss");
     this.spawnNextBossOrb();
     this.cameras.main.shake(200, 0.0025);
     this.spawnPickupSparkle(bossDefinition.spawn.x, bossDefinition.spawn.y);
@@ -888,11 +902,14 @@ export class LevelScene extends Phaser.Scene {
 
     const spawn = bossDefinition.orbSpawns[this.bossOrbIndex % bossDefinition.orbSpawns.length];
     this.bossOrbIndex += 1;
-    const orb = this.bossOrbs.create(spawn.x, spawn.y, "sun-drop") as Phaser.Physics.Arcade.Image;
-    orb.setScale(1.15);
-    orb.setTint(0xa3f8ff);
+    const orb = this.bossOrbs.create(spawn.x, spawn.y, "boss-orb") as Phaser.Physics.Arcade.Image;
+    orb.setScale(1.24);
+    orb.setTint(0xffffff);
     orb.setBlendMode(Phaser.BlendModes.SCREEN);
+    orb.setDepth(8);
     orb.setData("baseY", spawn.y);
+    orb.setData("baseScale", 1.24);
+    this.spawnPickupSparkle(spawn.x, spawn.y);
   }
 
   private handleBossOrbCollected(orb: Phaser.Physics.Arcade.Image): void {
@@ -919,6 +936,7 @@ export class LevelScene extends Phaser.Scene {
     this.updateBossHud();
 
     if (this.bossHp > 0) {
+      this.showBossHint("Un'altra perla!");
       this.time.delayedCall(450, () => this.spawnNextBossOrb());
       return;
     }
@@ -936,6 +954,7 @@ export class LevelScene extends Phaser.Scene {
     this.bossGateVisual?.destroy();
     this.bossGateVisual = undefined;
     this.updateBossHud("Murena Regina sconfitta! Via libera.");
+    this.showBossHint("");
     this.cameras.main.flash(180, 210, 250, 255);
     this.cameras.main.shake(180, 0.002);
     this.spawnPickupSparkle(this.levelDefinition.goalPosition.x - 30, this.levelDefinition.goalPosition.y - 60);
@@ -972,6 +991,7 @@ export class LevelScene extends Phaser.Scene {
     this.setGoalEnabled(false);
     this.setZoneEnabled(this.bossTriggerZone, true);
     this.updateBossHud("");
+    this.showBossHint("");
   }
 
   private updateBossHud(overrideText?: string): void {
@@ -988,6 +1008,15 @@ export class LevelScene extends Phaser.Scene {
 
     this.bossHudText.setText(text);
     this.bossHudText.setAlpha(text ? 1 : 0);
+  }
+
+  private showBossHint(text: string): void {
+    if (!this.bossHintText) {
+      return;
+    }
+
+    this.bossHintText.setText(text);
+    this.bossHintText.setAlpha(text ? 1 : 0);
   }
 
   private updateAnimation(): void {
@@ -1084,7 +1113,10 @@ export class LevelScene extends Phaser.Scene {
     this.bossOrbs.getChildren().forEach((entry, index) => {
       const orb = entry as Phaser.Physics.Arcade.Image;
       const baseY = orb.getData("baseY") as number;
+      const baseScale = (orb.getData("baseScale") as number | undefined) ?? 1.24;
       orb.y = baseY + Math.sin(this.time.now * 0.005 + index) * 7;
+      orb.setScale(baseScale + Math.sin(this.time.now * 0.008 + index) * 0.08);
+      orb.rotation += 0.015;
     });
   }
 

@@ -8,10 +8,10 @@ export const BOSS_TRIGGER_4 = { x: 3590, y: 266, width: 520, height: 280 };
 export const BOSS_SPAWN_4: Spawn = { x: 3720, y: 214 };
 export const BOSS_GATE_4 = { x: 3788, y: 358, width: 26, height: 244 };
 export const BOSS_ORB_SPAWNS_4: Spawn[] = [
-  { x: 3490, y: 188 },
   { x: 3640, y: 324 },
   { x: 3840, y: 258 },
-  { x: 3660, y: 148 }
+  { x: 3660, y: 148 },
+  { x: 3490, y: 188 }
 ];
 
 export const GROUND_SEGMENTS_4: Segment[] = [
