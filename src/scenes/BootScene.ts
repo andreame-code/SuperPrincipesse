@@ -109,6 +109,7 @@ export class BootScene extends Phaser.Scene {
     this.createGroundTextures();
     this.createPlatformTexture();
     this.createCollectibleTexture();
+    this.createBossOrbTexture();
     this.createEnemySpritesheet();
     this.createFishEnemySpritesheet();
     this.createFoliageTextures();
@@ -312,6 +313,39 @@ export class BootScene extends Phaser.Scene {
 
     ctx.fillStyle = "rgba(255,255,255,0.6)";
     ctx.fillRect(13, 11, 6, 6);
+    texture.refresh();
+  }
+
+  private createBossOrbTexture(): void {
+    const texture = this.requireCanvasTexture("boss-orb", 56, 56);
+    const ctx = texture.getContext();
+
+    const outer = ctx.createRadialGradient(28, 28, 4, 28, 28, 28);
+    outer.addColorStop(0, "rgba(255,255,255,0.95)");
+    outer.addColorStop(0.34, "rgba(170,255,255,0.95)");
+    outer.addColorStop(0.7, "rgba(84,223,255,0.78)");
+    outer.addColorStop(1, "rgba(84,223,255,0)");
+    ctx.fillStyle = outer;
+    ctx.beginPath();
+    ctx.arc(28, 28, 28, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(213,252,255,0.9)";
+    ctx.beginPath();
+    ctx.arc(28, 28, 16, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#f5ffff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(28, 28, 18, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.beginPath();
+    ctx.arc(22, 22, 5, 0, Math.PI * 2);
+    ctx.fill();
+
     texture.refresh();
   }
 
