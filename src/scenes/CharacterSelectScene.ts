@@ -17,6 +17,10 @@ export class CharacterSelectScene extends Phaser.Scene {
   create(): void {
     setCurrentScene("character-select");
     setRunStatus("select");
+    this.index = 0;
+    this.levelIndex = 0;
+    this.cards = [];
+    this.levelButtons = [];
     const { width, height } = this.scale;
     this.cameras.main.setBackgroundColor("#1c122d");
     this.add.rectangle(width / 2, height / 2, width, height, 0x1c122d, 1);
@@ -78,6 +82,12 @@ export class CharacterSelectScene extends Phaser.Scene {
       this.input.keyboard?.addKey(keyCode);
     });
     this.input.keyboard?.on("keydown-ENTER", () => this.confirmSelection());
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.input.keyboard?.removeAllListeners();
+      this.cards = [];
+      this.levelButtons = [];
+    });
   }
 
   private createCard(
