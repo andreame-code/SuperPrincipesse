@@ -3,8 +3,6 @@ import { getScore, getSelectedCharacter } from "../gameState";
 import { setCurrentScene, setRunStatus } from "../runtimeState";
 
 export class WinScene extends Phaser.Scene {
-  private enterKey?: Phaser.Input.Keyboard.Key;
-
   constructor() {
     super("win");
   }
@@ -94,12 +92,6 @@ export class WinScene extends Phaser.Scene {
     };
 
     restart.on("pointerup", continueFlow);
-    this.enterKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.enterKey?.on("down", continueFlow);
-
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.enterKey?.off("down", continueFlow);
-      this.enterKey = undefined;
-    });
+    this.input.keyboard?.once("keydown-ENTER", continueFlow);
   }
 }
