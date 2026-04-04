@@ -3,8 +3,6 @@ import { getSelectedCharacter } from "../gameState";
 import { setCurrentScene, setRunStatus } from "../runtimeState";
 
 export class GameOverScene extends Phaser.Scene {
-  private enterKey?: Phaser.Input.Keyboard.Key;
-
   constructor() {
     super("game-over");
   }
@@ -58,17 +56,7 @@ export class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
 
-    restart.on("pointerup", () => this.returnToMenu());
-    this.enterKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.enterKey?.on("down", this.returnToMenu, this);
-
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.enterKey?.off("down", this.returnToMenu, this);
-      this.enterKey = undefined;
-    });
-  }
-
-  private returnToMenu(): void {
-    this.scene.start("menu");
+    restart.on("pointerup", () => this.scene.start("menu"));
+    this.input.keyboard?.once("keydown-ENTER", () => this.scene.start("menu"));
   }
 }
