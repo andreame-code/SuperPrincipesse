@@ -1,4 +1,4 @@
-export type CharacterId = "rapunzel" | "phua" | "mulan" | "biancaneve" | "future";
+export type CharacterId = "rapunzel" | "phua" | "mulan" | "biancaneve" | "aurora";
 
 export interface CharacterPhysics {
   scale: number;
@@ -125,27 +125,27 @@ export const characters: CharacterDefinition[] = [
     }
   },
   {
-    id: "future",
-    name: "Prossima Principessa",
-    title: "In arrivo",
-    primaryColor: 0x7f8ea3,
-    accentColor: 0x42506b,
-    description: "Slot pronto per espandere il roster con nuove abilita.",
-    unlocked: false,
+    id: "aurora",
+    name: "Aurora",
+    title: "Bella Addormentata dell'Alba",
+    primaryColor: 0xf3a2c6,
+    accentColor: 0xf2d77b,
+    description: "Elegante e ariosa. Ha falcate lunghe, salto dolce e una discesa piu controllata.",
+    unlocked: true,
     physics: {
       scale: 0.6,
       bodySize: { width: 24, height: 44 },
       bodyOffset: { x: 20, y: 34 },
-      moveSpeed: 220,
-      groundAcceleration: 800,
-      airAcceleration: 420,
-      groundDrag: 1200,
-      jumpVelocity: -470,
-      maxFallSpeed: 700,
+      moveSpeed: 228,
+      groundAcceleration: 790,
+      airAcceleration: 445,
+      groundDrag: 1180,
+      jumpVelocity: -495,
+      maxFallSpeed: 660,
       attackOffsetX: 28,
-      attackScaleX: 0.72,
+      attackScaleX: 0.74,
       attackScaleY: 0.78,
-      attackDurationMs: 110
+      attackDurationMs: 118
     }
   }
 ];
