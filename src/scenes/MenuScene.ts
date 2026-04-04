@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { setCurrentScene, setRunStatus } from "../runtimeState";
 
 export class MenuScene extends Phaser.Scene {
+  private enterKey?: Phaser.Input.Keyboard.Key;
+
   constructor() {
     super("menu");
   }
@@ -102,7 +104,7 @@ export class MenuScene extends Phaser.Scene {
       startButton.setScale(1);
     });
     startButton.on("pointerup", () => {
-      this.scene.start("character-select");
+      this.startAdventure();
     });
 
     this.add
@@ -122,9 +124,17 @@ export class MenuScene extends Phaser.Scene {
       ease: "Sine.inOut"
     });
 
-    this.input.keyboard?.once("keydown-ENTER", () => {
-      this.scene.start("character-select");
+    this.enterKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.enterKey?.on("down", this.startAdventure, this);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.enterKey?.off("down", this.startAdventure, this);
+      this.enterKey = undefined;
     });
+  }
+
+  private startAdventure(): void {
+    this.scene.start("character-select");
   }
 
   private createCloudBand(scrollFactor: number, alpha: number, speedFactor: number): void {
