@@ -51,6 +51,7 @@ export class LevelScene extends Phaser.Scene {
   private bossDefeated = false;
   private bossHp = 0;
   private bossOrbIndex = 0;
+  private swimHintText?: Phaser.GameObjects.Text;
 
   constructor(sceneKey = "level-1") {
     super(sceneKey);
@@ -86,6 +87,7 @@ export class LevelScene extends Phaser.Scene {
     this.createEnemies();
     this.createGoal();
     this.createBossSetup();
+    this.createUnderwaterHint();
 
     this.cameras.main.startFollow(this.player, true, 0.1, 0.08);
     this.cameras.main.setDeadzone(180, 120);
@@ -691,6 +693,33 @@ export class LevelScene extends Phaser.Scene {
     this.setGoalEnabled(false);
   }
 
+  private createUnderwaterHint(): void {
+    if (!this.isUnderwaterLevel()) {
+      return;
+    }
+
+    this.swimHintText = this.add
+      .text(480, 84, "Nuota in tutte le direzioni con frecce o WASD. SPACE ti fa salire.", {
+        fontFamily: "Georgia",
+        fontSize: "18px",
+        color: "#effdff",
+        stroke: "#124a60",
+        strokeThickness: 4,
+        align: "center"
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(55);
+
+    this.tweens.add({
+      targets: this.swimHintText,
+      alpha: 0,
+      delay: 3600,
+      duration: 800,
+      onComplete: () => this.swimHintText?.destroy()
+    });
+  }
+
   private createGoal(): void {
     const x = this.levelDefinition.goalPosition.x;
     const y = this.levelDefinition.goalPosition.y;
@@ -719,19 +748,20 @@ export class LevelScene extends Phaser.Scene {
     const body = this.player.body as Phaser.Physics.Arcade.Body;
     const moveLeft = this.cursors.left.isDown || this.wasd.left.isDown;
     const moveRight = this.cursors.right.isDown || this.wasd.right.isDown;
+    const moveUp = this.cursors.up.isDown || this.wasd.up.isDown || (this.jumpKey?.isDown ?? false);
     const moveDown = this.cursors.down.isDown || this.wasd.down.isDown;
     const jumpPressed =
       Phaser.Input.Keyboard.JustDown(this.cursors.up) ||
       Phaser.Input.Keyboard.JustDown(this.wasd.up) ||
       (this.jumpKey ? Phaser.Input.Keyboard.JustDown(this.jumpKey) : false);
-    const jumpHeld = this.cursors.up.isDown || this.wasd.up.isDown || (this.jumpKey?.isDown ?? false);
+    const jumpHeld = moveUp;
 
     if (this.isUnderwaterLevel()) {
-      const swimAcceleration = 540;
+      const swimAcceleration = 520;
+      const idleDrift = 18;
       body.setAllowGravity(false);
-      body.setDrag(760, 820);
-      body.setAccelerationX(0);
-      body.setAccelerationY(32);
+      body.setDrag(860, 860);
+      body.setAcceleration(0, 0);
 
       if (moveLeft === moveRight) {
         body.setAccelerationX(0);
@@ -740,22 +770,17 @@ export class LevelScene extends Phaser.Scene {
         this.facing = moveLeft ? -1 : 1;
       }
 
-      if (jumpHeld && !moveDown) {
+      if (moveUp === moveDown) {
+        body.setAccelerationY(idleDrift);
+      } else if (moveUp) {
         body.setAccelerationY(-swimAcceleration);
-      } else if (moveDown && !jumpHeld) {
-        body.setAccelerationY(swimAcceleration * 0.8);
-      } else if (jumpHeld && moveDown) {
-        body.setAccelerationY(0);
+      } else if (moveDown) {
+        body.setAccelerationY(swimAcceleration);
       }
 
-      if (jumpPressed) {
-        body.setVelocityY(Math.max(body.velocity.y - 105, -220));
+      if ((Math.abs(body.velocity.x) > 16 || Math.abs(body.velocity.y) > 16) && this.runDustCooldown <= 0) {
         this.spawnSwimBubbles();
-      }
-
-      if ((Math.abs(body.velocity.x) > 24 || Math.abs(body.velocity.y) > 36) && this.runDustCooldown <= 0) {
-        this.spawnSwimBubbles();
-        this.runDustCooldown = 180;
+        this.runDustCooldown = 130;
       } else {
         this.runDustCooldown = Math.max(0, this.runDustCooldown - delta);
       }
@@ -1023,7 +1048,7 @@ export class LevelScene extends Phaser.Scene {
     const body = this.player.body as Phaser.Physics.Arcade.Body;
 
     if (this.isUnderwaterLevel()) {
-      if (Math.abs(body.velocity.x) > 18 || Math.abs(body.velocity.y) > 26) {
+      if (Math.abs(body.velocity.x) > 12 || Math.abs(body.velocity.y) > 12) {
         this.player.play(`${this.selectedCharacter.id}-run`, true);
         return;
       }
@@ -1058,6 +1083,7 @@ export class LevelScene extends Phaser.Scene {
       const easedScaleX = Phaser.Math.Linear(Math.abs(this.player.scaleX), this.physicsProfile.scale * (1 + bob + speedMix * 0.04), 0.18);
       const easedScaleY = Phaser.Math.Linear(this.player.scaleY, this.physicsProfile.scale * (1 - bob * 0.6 - speedMix * 0.03), 0.18);
       this.player.setScale(easedScaleX, easedScaleY);
+      this.player.setRotation(Phaser.Math.Clamp(body.velocity.y / 560, -0.22, 0.22));
 
       if (this.playerGlow) {
         this.playerGlow.x = this.player.x;
@@ -1342,19 +1368,19 @@ export class LevelScene extends Phaser.Scene {
   }
 
   private spawnSwimBubbles(): void {
-    for (let index = 0; index < 3; index += 1) {
+    for (let index = 0; index < 4; index += 1) {
       const bubble = this.add
-        .image(this.player.x - this.facing * 8 + index * 3, this.player.y - 10 + index * 5, "dust-dot")
+        .image(this.player.x - this.facing * 10 + index * 4, this.player.y - 10 + index * 6, "dust-dot")
         .setTint(0xc9fbff)
         .setAlpha(0.65)
-        .setScale(0.8 - index * 0.12);
+        .setScale(0.92 - index * 0.14);
       this.tweens.add({
         targets: bubble,
-        x: bubble.x - this.facing * 10 - index * 2,
-        y: bubble.y - 16 - index * 6,
+        x: bubble.x - this.facing * 12 - index * 2,
+        y: bubble.y - 20 - index * 7,
         alpha: 0,
         scale: 0.16,
-        duration: 320 + index * 40,
+        duration: 340 + index * 46,
         onComplete: () => bubble.destroy()
       });
     }
@@ -1385,6 +1411,7 @@ export class LevelScene extends Phaser.Scene {
         this.resetBossEncounter();
       }
       this.player.setPosition(this.respawnPoint.x, this.respawnPoint.y);
+      this.player.setRotation(0);
       body.setVelocity(0, 0);
       this.coyoteTimer = 110;
       this.jumpBufferTimer = 0;
