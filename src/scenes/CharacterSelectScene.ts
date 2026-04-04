@@ -107,6 +107,8 @@ export class CharacterSelectScene extends Phaser.Scene {
       portrait = this.add.image(0, -64, "mulan-card").setScale(0.8);
     } else if (character.id === "biancaneve") {
       portrait = this.add.image(0, -64, "biancaneve-card").setScale(0.8);
+    } else if (character.id === "aurora") {
+      portrait = this.add.image(0, -64, "aurora-card").setScale(0.8);
     } else {
       portrait = this.add.rectangle(0, -64, 110, 110, 0x445067, 1);
     }

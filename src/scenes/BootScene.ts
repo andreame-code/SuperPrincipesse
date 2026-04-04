@@ -64,6 +64,17 @@ export class BootScene extends Phaser.Scene {
       E: "#2f2a38"
     });
 
+    this.createCharacterSpritesheet("aurora", this.getAuroraFrames(), {
+      X: "#2c2434",
+      H: "#d7ac49",
+      L: "#f2de8d",
+      S: "#f5dfd2",
+      P: "#f1a2c7",
+      R: "#d874a1",
+      C: "#f6e7bd",
+      E: "#2f2a38"
+    });
+
     this.createCharacterPortrait("rapunzel-card", this.getRapunzelFrames()[0], {
       X: "#1f1330",
       H: "#d89a1e",
@@ -105,6 +116,17 @@ export class BootScene extends Phaser.Scene {
       E: "#2f2a38"
     });
 
+    this.createCharacterPortrait("aurora-card", this.getAuroraFrames()[0], {
+      X: "#2c2434",
+      H: "#d7ac49",
+      L: "#f2de8d",
+      S: "#f5dfd2",
+      P: "#f1a2c7",
+      R: "#d874a1",
+      C: "#f6e7bd",
+      E: "#2f2a38"
+    });
+
     this.createCloudTexture();
     this.createGroundTextures();
     this.createPlatformTexture();
@@ -125,6 +147,7 @@ export class BootScene extends Phaser.Scene {
     this.createCharacterAnimations("phua");
     this.createCharacterAnimations("mulan");
     this.createCharacterAnimations("biancaneve");
+    this.createCharacterAnimations("aurora");
     this.createEnemyAnimations();
   }
 
@@ -1102,6 +1125,92 @@ export class BootScene extends Phaser.Scene {
         ".XWW......WWX...",
         "XW...........WX.",
         "................",
+        "................"
+      ]
+    ];
+  }
+
+  private getAuroraFrames(): PixelFrame[] {
+    const upperBody = [
+      "......XXXX......",
+      ".....XHLLHX.....",
+      "....XHLLLLHX....",
+      "...XHLLLLLLHX...",
+      "...XHLSSSSLLX...",
+      "...XHSESSSEHX...",
+      "...XHLLSSLLHX...",
+      "...XLPPCCPPLX...",
+      "..XPPPPRRPPPPX..",
+      "..XPPPPPPPPPPX..",
+      "..XPPPPPPPPPPX..",
+      "..XPPPPPPPPPPX.."
+    ];
+
+    return [
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPRPX..",
+        "..XPRPX..XPRPX..",
+        ".XPPX......XPPX.",
+        ".XX..........XX.",
+        "................",
+        "................"
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        ".XPPPX....XPPPX.",
+        "XPPX........XPPX",
+        ".XX..........XX.",
+        "................",
+        "................"
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        ".XPPP......XPPX.",
+        "XPRX........XPPX",
+        ".X..........X.X.",
+        "..XX......XX....",
+        "................"
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPRPX..XPRPX..",
+        ".XPPX......XPPX.",
+        "XPP..........PPX",
+        ".X............X.",
+        "................"
+      ],
+      [
+        ...upperBody,
+        "...XPPPPPPPPX...",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPRPX..XPRPX..",
+        "..XPPX....XPPX..",
+        ".XPP......PPX...",
+        ".XX........XX...",
+        "................"
+      ],
+      [
+        ...upperBody,
+        "...XPPPPPPPPX...",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPRPX..XPRPX..",
+        ".XPPX......XPPX.",
+        "XPP..........PPX",
+        ".X............X.",
         "................"
       ]
     ];
