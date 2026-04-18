@@ -1,4 +1,11 @@
-export type CharacterId = "rapunzel" | "phua" | "mulan" | "biancaneve" | "aurora";
+export type CharacterId =
+  | "rapunzel"
+  | "phua"
+  | "mulan"
+  | "biancaneve"
+  | "aurora"
+  | "principessa-spada"
+  | "unicorno";
 
 export interface CharacterPhysics {
   scale: number;
@@ -146,6 +153,54 @@ export const characters: CharacterDefinition[] = [
       attackScaleX: 0.74,
       attackScaleY: 0.78,
       attackDurationMs: 118
+    }
+  },
+  {
+    id: "principessa-spada",
+    name: "Principessa Spada",
+    title: "Guardiana della Lama di Luce",
+    primaryColor: 0xf3a2c6,
+    accentColor: 0xd8dcff,
+    description: "Regale ma decisa. Impugna la spada, accelera bene e colpisce con slancio frontale.",
+    unlocked: true,
+    physics: {
+      scale: 0.62,
+      bodySize: { width: 24, height: 46 },
+      bodyOffset: { x: 20, y: 34 },
+      moveSpeed: 236,
+      groundAcceleration: 840,
+      airAcceleration: 455,
+      groundDrag: 1210,
+      jumpVelocity: -490,
+      maxFallSpeed: 690,
+      attackOffsetX: 30,
+      attackScaleX: 0.8,
+      attackScaleY: 0.8,
+      attackDurationMs: 110
+    }
+  },
+  {
+    id: "unicorno",
+    name: "Unicorno",
+    title: "Galoppo di Zucchero Stellare",
+    primaryColor: 0xf7f2ff,
+    accentColor: 0xf39ac7,
+    description: "Scatta leggero, copre terreno in fretta e plana con una ricaduta piu dolce.",
+    unlocked: true,
+    physics: {
+      scale: 0.64,
+      bodySize: { width: 32, height: 34 },
+      bodyOffset: { x: 16, y: 42 },
+      moveSpeed: 248,
+      groundAcceleration: 930,
+      airAcceleration: 500,
+      groundDrag: 1320,
+      jumpVelocity: -470,
+      maxFallSpeed: 640,
+      attackOffsetX: 30,
+      attackScaleX: 0.86,
+      attackScaleY: 0.74,
+      attackDurationMs: 102
     }
   }
 ];

@@ -47,7 +47,7 @@ export class CharacterSelectScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const spacing = 182;
+    const spacing = characters.length > 5 ? 160 : 182;
     const startX = width / 2 - ((characters.length - 1) * spacing) / 2;
     characters.forEach((character, idx) => {
       const card = this.createCard(startX + idx * spacing, height / 2 + 8, character);
@@ -98,20 +98,10 @@ export class CharacterSelectScene extends Phaser.Scene {
     const frame = this.add.rectangle(0, 0, 168, 288, 0x2b1e3d, 0.95).setStrokeStyle(3, 0x835c9d);
     const plate = this.add.rectangle(0, -60, 132, 126, 0x3d2b52, 1).setStrokeStyle(2, 0xf6d38a);
 
-    let portrait: Phaser.GameObjects.GameObject;
-    if (character.id === "rapunzel") {
-      portrait = this.add.image(0, -64, "rapunzel-card").setScale(0.8);
-    } else if (character.id === "phua") {
-      portrait = this.add.image(0, -64, "phua-card").setScale(0.8);
-    } else if (character.id === "mulan") {
-      portrait = this.add.image(0, -64, "mulan-card").setScale(0.8);
-    } else if (character.id === "biancaneve") {
-      portrait = this.add.image(0, -64, "biancaneve-card").setScale(0.8);
-    } else if (character.id === "aurora") {
-      portrait = this.add.image(0, -64, "aurora-card").setScale(0.8);
-    } else {
-      portrait = this.add.rectangle(0, -64, 110, 110, 0x445067, 1);
-    }
+    const portraitKey = `${character.id}-card`;
+    const portrait = this.textures.exists(portraitKey)
+      ? this.add.image(0, -64, portraitKey).setScale(0.8)
+      : this.add.rectangle(0, -64, 110, 110, 0x445067, 1);
 
     const name = this.add
       .text(0, 52, character.name, {

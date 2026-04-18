@@ -75,6 +75,32 @@ export class BootScene extends Phaser.Scene {
       E: "#2f2a38"
     });
 
+    this.createCharacterSpritesheet("principessa-spada", this.getPrincessSwordFrames(), {
+      X: "#2a2234",
+      H: "#a96a2a",
+      L: "#efc86a",
+      S: "#f7dfd3",
+      P: "#f3a1c6",
+      R: "#d873a1",
+      C: "#f3d97d",
+      Y: "#c9d4e9",
+      W: "#f7fbff",
+      G: "#67b7ff",
+      E: "#2f2a38"
+    });
+
+    this.createCharacterSpritesheet("unicorno", this.getUnicornFrames(), {
+      X: "#72548b",
+      W: "#fff7ff",
+      L: "#e8ddff",
+      P: "#f59ccc",
+      R: "#d870a5",
+      H: "#f2b84f",
+      G: "#fff1b8",
+      E: "#2f2a38",
+      S: "#ffb36f"
+    });
+
     this.createCharacterPortrait("rapunzel-card", this.getRapunzelFrames()[0], {
       X: "#1f1330",
       H: "#d89a1e",
@@ -127,6 +153,32 @@ export class BootScene extends Phaser.Scene {
       E: "#2f2a38"
     });
 
+    this.createCharacterPortrait("principessa-spada-card", this.getPrincessSwordFrames()[0], {
+      X: "#2a2234",
+      H: "#a96a2a",
+      L: "#efc86a",
+      S: "#f7dfd3",
+      P: "#f3a1c6",
+      R: "#d873a1",
+      C: "#f3d97d",
+      Y: "#c9d4e9",
+      W: "#f7fbff",
+      G: "#67b7ff",
+      E: "#2f2a38"
+    });
+
+    this.createCharacterPortrait("unicorno-card", this.getUnicornFrames()[0], {
+      X: "#72548b",
+      W: "#fff7ff",
+      L: "#e8ddff",
+      P: "#f59ccc",
+      R: "#d870a5",
+      H: "#f2b84f",
+      G: "#fff1b8",
+      E: "#2f2a38",
+      S: "#ffb36f"
+    });
+
     this.createCloudTexture();
     this.createGroundTextures();
     this.createPlatformTexture();
@@ -148,6 +200,8 @@ export class BootScene extends Phaser.Scene {
     this.createCharacterAnimations("mulan");
     this.createCharacterAnimations("biancaneve");
     this.createCharacterAnimations("aurora");
+    this.createCharacterAnimations("principessa-spada");
+    this.createCharacterAnimations("unicorno");
     this.createEnemyAnimations();
   }
 
@@ -1211,6 +1265,230 @@ export class BootScene extends Phaser.Scene {
         ".XPPX......XPPX.",
         "XPP..........PPX",
         ".X............X.",
+        "................"
+      ]
+    ];
+  }
+
+  private getPrincessSwordFrames(): PixelFrame[] {
+    const upperBody = [
+      "......XXXX......",
+      ".....XCLLCX.....",
+      "....XHLLLLHX....",
+      "...XHLLLLLLHX...",
+      "...XHLSSSSLLX...",
+      "...XHSESSSEHX...",
+      "...XHLLSSLLHX...",
+      "...XLPPPPPPLX...",
+      "..XPPPPRRPPPPX..",
+      "..XPPPPPPPPPPX..",
+      "..XPPPPPPPPPPX..",
+      "..XPPPPPPPPPPX.."
+    ];
+
+    return [
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPXXPPPPX..",
+        "..XPRPXYWXPYPX..",
+        ".XPPX..XYYXPPX..",
+        ".XX....XYYX.XX..",
+        "......XYYX......",
+        "......XWWX......"
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPXXPPPPX..",
+        ".XPPPX..XPPPPX..",
+        "XPPX...XYYXXPPX.",
+        ".XX....XYYX..XX.",
+        "......XYYX......",
+        "......XWWX......"
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPXXPPPPX..",
+        ".XPPP...XPPPPX..",
+        "XPRX...XYYXXPPX.",
+        ".X....XYYX..X.X.",
+        "..XX..XYYX.XX...",
+        ".....XWWX......."
+      ],
+      [
+        ...upperBody,
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPXXPPPPX..",
+        "..XPRPX..XPRPX..",
+        ".XPPX...XYYXPPX.",
+        "XPP....XYYX..PPX",
+        ".X.....XWWX...X.",
+        "................"
+      ],
+      [
+        "............W...",
+        "...........XWY..",
+        "......XXXX.XWY..",
+        ".....XCLCX.XWY..",
+        "....XHLLLLHXW...",
+        "...XHLLSSSLLHX..",
+        "...XHSESSSEHX...",
+        "...XHLLSSLLHX...",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "...XPPPPPPPPX...",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        "..XPRPX..XPRPX..",
+        "..XPPX....XPPX..",
+        ".XPP......PPX...",
+        ".XX........XX...",
+        "................",
+        "................"
+      ],
+      [
+        "..........W.....",
+        ".........XWY....",
+        "......XXXXWY....",
+        ".....XCLCXWY....",
+        "....XHLLLLHX....",
+        "...XHLLSSLLHX...",
+        "...XHSESSSEHX...",
+        "...XHLLSSLLHX...",
+        "..XPPPPRRPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPPPPPPPX..",
+        "...XPPPPPPPPX...",
+        "..XPPPPPPPPPPX..",
+        "..XPPPPRRPPPPX..",
+        ".XPPPX....XPPX..",
+        "XPPX........XPPX",
+        ".XX..........XX.",
+        "................",
+        "................",
+        "................"
+      ]
+    ];
+  }
+
+  private getUnicornFrames(): PixelFrame[] {
+    const head = [
+      "................",
+      ".......HH.......",
+      "......XHGH......",
+      ".....XPHHHX.....",
+      "....XPPWWWWX....",
+      "...XPPWWWWEWX...",
+      "...XWWWWWWWWX...",
+      "...XWWWWWWWWX..."
+    ];
+
+    return [
+      [
+        ...head,
+        "...XPWWWWWWPX...",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        "..XWWX....XWWX..",
+        ".XSWX......XWSX.",
+        ".XWX........XWX.",
+        "................",
+        "................",
+        "................"
+      ],
+      [
+        ...head,
+        "...XPWWWWWWPX...",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        ".XWWX....XWWWX..",
+        "XSWX......XWSX..",
+        ".X..........X...",
+        "................",
+        "................",
+        "................"
+      ],
+      [
+        ...head,
+        "...XPWWWWWWPX...",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        ".XWWX....XWWX...",
+        "XSW......XWSX...",
+        ".X........X.X...",
+        "..XX....XX......",
+        "................",
+        "................"
+      ],
+      [
+        ...head,
+        "...XPWWWWWWPX...",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        "..XWWX....XWWX..",
+        "XSW..........WSX",
+        ".X............X.",
+        "................",
+        "................",
+        "................"
+      ],
+      [
+        "........HH......",
+        ".......XHGH.....",
+        "......XPHHHX....",
+        ".....XPPWWWWX...",
+        "....XPPWWWWEWX..",
+        "....XWWWWWWWWX..",
+        "...XPWWWWWWWWX..",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        "..XWWX....XWWX..",
+        ".XSW......XWSX..",
+        ".XWX......XWX...",
+        "..X........X....",
+        "................",
+        "................",
+        "................",
+        "................",
+        "................"
+      ],
+      [
+        ".......HH.......",
+        "......XHGH......",
+        ".....XPHHHX.....",
+        "....XPPWWWWX....",
+        "...XPPWWWWEWX...",
+        "...XWWWWWWWWX...",
+        "...XPWWWWWWPX...",
+        "..XPWWWWWWWWPX..",
+        "..XWWWWWWWWWWX..",
+        "..XWWWWLLWWWWX..",
+        "..XWWWX..XWWWX..",
+        ".XWWX....XWWWX..",
+        "XSWX......XWSX..",
+        ".X..........X...",
+        "................",
+        "................",
+        "................",
+        "................",
+        "................",
         "................"
       ]
     ];
